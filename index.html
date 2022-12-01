@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>CodePen - GBL Test</title>
+  <link rel="stylesheet" href="./style.css">
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<head>
+  <meta charset='utf-8' />
+  <title>Global Bio Labs</title>
+  <meta name='viewport' content='width=device-width, initial-scale=1' />
+  <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+  <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v2.9.2/mapbox-gl.js'></script>
+  <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v2.9.2/mapbox-gl.css' rel='stylesheet' />
+
+  <div id="map"></div>
+
+  <div class="container" id="controller">
+
+    <!-- This is the legend collapse button -->
+
+    <button id="collapse" class="collapse-btn" onclick="toggleLegend()"><img src="https://raw.githubusercontent.com/Erklgrew/Biolabs/main/Toggle.png" width=20px></button>
+    <br></br>
+    <div id="sub-control" class="block">
+
+      <!-- This is the global map/home button -->
+
+      <button id="global" class="global"><img src="https://raw.githubusercontent.com/Erklgrew/Biolabs/41c51042a97b140b8e1dbbf126489492c306a354/World%20Map.svg" width=150px></button>
+
+      <!-- this is the HTML code to change the basemap style-->
+
+      <h3>Base Map Style</h3>
+      <div class="container-drawer">
+        <div id="mapstyle">
+
+          <!--  Satellite  -->
+
+          <input id="erikrenglish/cl668zz3c000315o1lth77x14" type="radio" name="rtoggle" value="satellite" checked="checked">
+          <label for="erikrenglish/cl668zz3c000315o1lth77x14">Satellite</label>
+
+          <!--  Light  -->
+
+          <input id="erikrenglish/cl89x76g3000d15s3o58l90j2" type="radio" name="rtoggle" value="light">
+          <label for="erikrenglish/cl89x76g3000d15s3o58l90j2">Light</label>
+
+          <!--  Dark  -->
+
+          <input id="erikrenglish/cl95l6eko000m14o6aruk84v3" type="radio" name="rtoggle" value="dark">
+          <label for="erikrenglish/cl95l6eko000m14o6aruk84v3">Dark</label>
+        </div>
+
+        <!-- this is the HTML code to add the BSL4 and BSL3+ lab layers -->
+
+      </div>
+      <h3>Lab Type</h3>
+
+      <div class="block">
+        <div>
+          <input type="checkbox" id="bsl4" value="bsl4" onchange="switchlayer('bsl4')" unchecked />
+          <label for="bsl4">Biosafety Level 4</label>
+        </div>
+        <div>
+          <input type="checkbox" id="bsl3plus" value="bsl3plus" onchange="switchlayer('bsl3plus')" unchecked />
+          <label for="bsl3plus">Biosafety Level 3+</label>
+        </div>
+
+        <h3>Specialty Focus</h3>
+        <div class="block">
+          <div>
+            <input type="checkbox" id="absl4" value="absl4" onchange="switchlayer('absl4')" unchecked />
+            <label for="absl4">Animal Biosafety Level 4</label>
+          </div>
+          <div>
+            <input type="checkbox" id="rbsl4" value="rbsl4" onchange="switchlayer('rbsl4')" unchecked />
+            <label for="rbsl4">Arthropod Biosafety Level 4</label>
+          </div>
+
+          <h3>Scorecard <div style="display:inline-block;" class="tooltip">
+              <p><a href="https://thebulletin.org/" target="_blank">&#9432</a>
+              <div class="tooltiptext">
+                <p>Methodology
+                <p>
+              </div>
+          </h3>
+
+          <div class="block">
+            <div id="scorecard">
+              <input id="Governance" type="radio" name="stoggle" value="Governance" onchange="updateScorecard()" />
+              <label for="Governance">Governance</label>
+              <br>
+              <input id="Stability" type="radio" name="stoggle" value="Stability" onchange="updateScorecard()" />
+              <label for="Stability">Stability</label>
+              <br>
+              <input id="Biosafety" type="radio" name="stoggle" value="Biosafety" onchange="updateScorecard()" />
+              <label for="Biosafety">Biosafety</label>
+              <br>
+              <input id="Biosecurity" type="radio" name="stoggle" value="Biosecurity" onchange="updateScorecard()" />
+              <label for="Biosecurity">Biosecurity</label>
+              <br>
+              <input id="DualUse" type="radio" name="stoggle" value="DualUse" onchange="updateScorecard()" />
+              <label for="DualUse">Dual Use</label>
+              <br>
+              <input id="none" type="radio" name="stoggle" value="none" onchange="updateScorecard()" checked />
+              <label for="none">None</label>
+            </div>
+          </div>
+
+          <!-- legend -->
+          <div class='legend'>
+
+            <div class='legend-scale'>
+              <ul class='legend-labels'>
+                <li><span style='background:#940025;'></span>0%</li>
+                <li><span style='background:#bd0026;'></span></li>
+                <li><span style='background:#e31a1c;'></span></li>
+                <li><span style='background:#fd8d3c;'></span>30%</li>
+                <li><span style='background:#feb24c;'></span></li>
+                <li><span style='background:#fed976;'></span></li>
+                <li><span style='background:#ffeda0;'></span></li>
+                <li><span style='background:#8CCF36;'></span>70%</li>
+                <li><span style='background:#43B53F;'></span></li>
+                <li><span style='background:#009E49;'></span></li>
+                <li><span></span>100%</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Dropdown menu for country focus -->
+
+          <h3>Country</h3>
+
+          <div class="dropdown">
+
+            <button onclick="myFunction()" class="dropbtn">Zoom to a specific country</button>
+            <div id="myDropdown" class="dropdown-content">
+
+              <a href="#" flyto="-25, 133,3">Australia</a>
+              <a href="#" flyto="53, 27,5">Belarus</a>
+              <a href="#" flyto="56.13,-106.35,3">Canada</a>
+              <a href="#" flyto="35.86166, 104.195397,4">China</a>
+              <a href="#" flyto="50, 14,7">Czech Republic</a>
+              <a href="#" flyto="48, 2,5">France</a>
+              <a href="#" flyto=".4, 9.5,6">Gabon</a>
+              <a href="#" flyto="51, 10.5,5">Germany</a>
+              <a href="#" flyto="47,19,6.5">Hungary</a>
+              <a href="#" flyto="20.5,79,4">India</a>
+              <a href="#" flyto="41.8,12.5,5">Italy</a>
+              <a href="#" flyto="36.2,138.25,4">Japan</a>
+              <a href="#" flyto="48,67,4">Kazakhstan</a>
+              <a href="#" flyto="12.87,121.77,5.5">The Philippines</a>
+              <a href="#" flyto="35.9,127.7,6">Republic of Korea</a>
+              <a href="#" flyto="61.5,105,3">Russian Federation</a>
+              <a href="#" flyto="23.9,45,5">Saudi Arabia</a>
+              <a href="#" flyto="1.35,103.8,10">Singapore</a>
+              <a href="#" flyto="-30.56,22.9,5">South Africa</a>
+              <a href="#" flyto="40.46,-3.75,5.5">Spain</a>
+              <a href="#" flyto="62,18.8,4">Sweden</a>
+              <a href="#" flyto="46.8,8.2,7">Switzerland</a>
+              <a href="#" flyto="23.6978,120.96,8">Taiwan</a>
+              <a href="#" flyto="55.38,-3.4,5">United Kingdom</a>
+              <a href="#" flyto="37.1,-95.7,4">United States</a>
+            </div>
+          </div>
+          <div><br>
+            <p2>Version 2022.1</p2>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container" id="sidebar">
+    <div class="toggle-btn" onclick="toggleSidebar(this)">
+      <img src="https://raw.githubusercontent.com/Erklgrew/Biolabs/main/Toggle.png" width=20px>
+    </div>
+    <h3 id='site_name'>Additional Information</h3>
+    <div id='properties'></div>
+  </div>
+
+  <!--  logos  -->
+
+  </div>
+  <div id="logos" class="logos">
+    <a href="https://thebulletin.org/" target="_blank"><img src="https://raw.githubusercontent.com/Erklgrew/Biolabs/main/bulletin-clock%2Bname.png" style="margin: 0px 10px 0px 5px" height=40px></a><span> </span>
+    <a href="https://schar.gmu.edu/" target="_blank"><img src="https://raw.githubusercontent.com/Erklgrew/Biolabs/main/GMU-Primary-Logo-FromBluetext-White.png" style="margin: 0px 10px 0px 5px" width=105px></img>
+      <a href="https://www.kcl.ac.uk/" target="_blank"><img src="https://raw.githubusercontent.com/Erklgrew/Biolabs/main/kings-white.png" style="margin: 0px 10px 0px 5px" height=40px></img>
+
+  </div>
+  </div>
+<!-- partial -->
+  <script  src="./script.js"></script>
+
+</body>
+</html>
